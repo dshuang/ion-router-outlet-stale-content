@@ -1,11 +1,12 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './Tab2.css';
+import ExploreContainer from '../components/ExploreContainer';
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 // These props are provided when creating the component
 interface OwnProps {
     // ...
+    afterLogin: ()=>void
 }
 
 // These props are provided via connecting the component to the store
@@ -18,12 +19,14 @@ interface PathProps {
     // ...
 }
 
-class Tab2 extends React.Component<OwnProps & StateProps & RouteComponentProps<PathProps>> {
+class SignInPage extends React.Component<OwnProps & StateProps & RouteComponentProps<PathProps>> {
 
-    gotoUrl:any = (pagePath:string)=>{
-        console.log('gotoTab1 called');
+    logInWithRedirect:any = (pagePath:string)=>{
+        console.log('logInWithRedirect called');
+        // simulate async request
         setTimeout(()=>{
-            console.log('timeout fired');
+            console.log('timeout fired, now calling history.push(+'+ pagePath +')');
+            this.props.afterLogin();
             this.props.history.push(pagePath);
         }, 1000);
     }
@@ -33,17 +36,17 @@ class Tab2 extends React.Component<OwnProps & StateProps & RouteComponentProps<P
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
-                        <IonTitle>Tab 2</IonTitle>
+                        <IonTitle>Sign In Page</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
                     <IonHeader collapse="condense">
                         <IonToolbar>
-                            <IonTitle size="large">Tab 2</IonTitle>
+                            <IonTitle size="large">Sign In Page</IonTitle>
                         </IonToolbar>
                     </IonHeader>
                     <div>
-                        <button onClick={(e)=>{e.stopPropagation();this.gotoUrl('/menuPage');}}>Go to /menuPage</button>
+                        <button onClick={(e)=>{e.stopPropagation();this.logInWithRedirect('/tab1');}}>Log in test user</button>
                     </div>
                 </IonContent>
             </IonPage>
@@ -51,4 +54,4 @@ class Tab2 extends React.Component<OwnProps & StateProps & RouteComponentProps<P
     }
 }
 
-export default withRouter(Tab2);
+export default withRouter(SignInPage);
